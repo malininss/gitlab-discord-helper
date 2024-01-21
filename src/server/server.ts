@@ -6,7 +6,7 @@ import { Routes } from './routes.js';
 const port = process.env.PORT;
 const app = express();
 
-export const initServer = () => {
+export const initServer = (): void => {
   app.use(bodyParser.json());
   app.post(Routes.Webhook, webhookHandler);
 

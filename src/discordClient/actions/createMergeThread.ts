@@ -9,7 +9,9 @@ import {
   getRoleCollectionByNames,
 } from '../helpers/role.js';
 
-export const createMergeThread = async (mrData: MergeWebhookPayload) => {
+export const createMergeThread = async (
+  mrData: MergeWebhookPayload
+): Promise<void> => {
   const projectConfig: ProjectConfig | undefined =
     projectsConfig[String(mrData.project.id) as ProjectConfigKeys];
 

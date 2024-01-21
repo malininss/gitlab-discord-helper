@@ -6,10 +6,18 @@ import { MergeWebhookPayloadSchema } from 'schemas/webhooks/mergeWebhook/Webhook
 import { WebhookEventType } from 'schemas/webhooks/enums.js';
 import { MergeWebhookActions } from 'schemas/webhooks/mergeWebhook/enums.js';
 
-export const webhookHandler = async (req: Request, res: Response) => {
+const checkIsMergeEventType = (
+  obj: unknown
+): obj is { eventType: WebhookEventType } =>
+  obj !== null && typeof obj === 'object' && 'eventType' in obj;
+
+export const webhookHandler = (req: Request, res: Response): void => {
   const body = transformKeysToCamelCase(req.body);
 
-  if (body.eventType !== WebhookEventType.MergeRequest) {
+  if (
+    checkIsMergeEventType(body) &&
+    body.eventType !== WebhookEventType.MergeRequest
+  ) {
     return;
   }
 
@@ -22,7 +30,7 @@ export const webhookHandler = async (req: Request, res: Response) => {
     !MRInfo.objectAttributes.action ||
     MRInfo.objectAttributes.action === MergeWebhookActions.Open
   ) {
-    createMergeThread(MRInfo);
+    createMergeThread(MRInfo).catch((error) => console.error(error));
   }
 
   res.status(200).send('Webhook received');
