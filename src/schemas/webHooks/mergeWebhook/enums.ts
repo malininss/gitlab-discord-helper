@@ -1,4 +1,4 @@
-export enum MRAction {
+export enum MergeWebhookActions {
   Open = 'open',
   Close = 'close',
   Reopen = 'reopen',

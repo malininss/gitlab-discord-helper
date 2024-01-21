@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { MRAction } from './enums.js';
+import { MergeWebhookActions } from './enums.js';
 import { WebhookEventType } from '../enums.js';
 
-export const WebhookMRPayloadSchema = z.object({
+export const MergeWebhookPayloadSchema = z.object({
   eventType: z.nativeEnum(WebhookEventType),
   project: z.object({
     id: z.number(),
@@ -14,6 +14,6 @@ export const WebhookMRPayloadSchema = z.object({
     iid: z.number(),
     url: z.string(),
     title: z.string(),
-    action: z.optional(z.nativeEnum(MRAction)),
+    action: z.optional(z.nativeEnum(MergeWebhookActions)),
   }),
 });

@@ -1,12 +1,15 @@
-import { ChannelType, ThreadAutoArchiveDuration } from 'discord.js';
-import { WebhookMRPayload } from '../../schemas/webHooks/MRWebhook/types.js';
-import { getChannelById } from '../helpers/getChannelById.js';
-import { getRoleCollectionByNames } from '../helpers/getRoleCollectionByNames.js';
-import projectsConfig from '../../../projectsConfig.json' assert { type: 'json' };
-import { ProjectConfig, ProjectConfigKeys } from '../../type.js';
-import { getRolesStringForTag } from '../helpers/getRolesStringForTag.js';
+import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types.js';
+import type { ProjectConfig, ProjectConfigKeys } from 'config/type.js';
 
-export const createMRTread = async (mrData: WebhookMRPayload) => {
+import projectsConfig from 'config/projectsConfig.json' assert { type: 'json' };
+import { ChannelType, ThreadAutoArchiveDuration } from 'discord.js';
+import { getChannelById } from '../helpers/channel.js';
+import {
+  getRolesStringForTag,
+  getRoleCollectionByNames,
+} from '../helpers/role.js';
+
+export const createMergeThread = async (mrData: MergeWebhookPayload) => {
   const projectConfig: ProjectConfig | undefined =
     projectsConfig[String(mrData.project.id) as ProjectConfigKeys];
 
