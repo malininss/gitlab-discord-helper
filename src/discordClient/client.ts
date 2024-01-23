@@ -1,4 +1,5 @@
 import { Client, IntentsBitField, Partials } from 'discord.js';
+import { CommandHelper } from './CommandHelper';
 
 /**
  * see https://discord.com/developers/docs/topics/gateway#list-of-intents
@@ -21,6 +22,17 @@ export const initDiscordClient = async (): Promise<void> => {
 
   client.on('ready', (c) => {
     console.log(`🚀 ${c.user.tag} bot is ready`);
+  });
+
+  client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isChatInputCommand()) return;
+    const command = CommandHelper.getCommandByName(interaction.commandName);
+
+    if (!command) {
+      return;
+    }
+
+    await command.execute(interaction);
   });
 
   try {
