@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import type { Command } from '../types';
 import { OptionName, SlashCommandName } from '../enums';
+import { projectConfigService } from 'core/services/projectConfigService';
 
 export const createProjectConfig: Command = {
   data: new SlashCommandBuilder()
@@ -31,7 +32,16 @@ export const createProjectConfig: Command = {
       return;
     }
 
-    const message = `gitlabProjectId: ${gitlabProjectId}, discordForumId: ${discordForumId}`;
-    await interaction.reply(message);
+    try {
+      await projectConfigService.upsertProjectConfig(
+        gitlabProjectId,
+        discordForumId
+      );
+      await interaction.reply(
+        `Project with id "${gitlabProjectId}" successfully connected with the discord forum "${discordForumId}"`
+      );
+    } catch (error) {
+      await interaction.reply(`${error as string} `);
+    }
   },
 };
