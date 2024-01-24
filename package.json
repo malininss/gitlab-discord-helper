@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "bun run src/index.ts",
+    "register": "bun run src/registerDiscordCommands.ts",
     "dev": "bun run --hot src/index.ts",
     "build": "bun build --target=bun ./src/index.ts --outdir ./dist",
     "type-check": "tsc"
