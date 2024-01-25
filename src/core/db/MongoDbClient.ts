@@ -9,26 +9,10 @@ export class MongoDbClient {
 
   private constructor() {
     this.dbName = DB_NAME;
-    const mongoDbUrl = process.env.MONGO_DB_URL;
 
-    if (!mongoDbUrl) {
-      throw new Error('MONGO_DB_URL is not defined in process.env');
-    }
-
-    this.dbClient = new MongoClient(`${mongoDbUrl}/${this.dbName}`);
-  }
-
-  private async initDb(): Promise<void> {
-    const db = this.getDb();
-
-    const isUsersCollectionExist = await db
-      .listCollections({ name: 'projects' }, { nameOnly: true })
-      .hasNext();
-
-    if (!isUsersCollectionExist) {
-      await db.createCollection('projects');
-      console.log('project collection created');
-    }
+    this.dbClient = new MongoClient(
+      `${process.env.MONGO_DB_URL}/${this.dbName}`
+    );
   }
 
   public static async getInstance(): Promise<MongoDbClient> {
@@ -36,8 +20,6 @@ export class MongoDbClient {
       const client = new MongoDbClient();
 
       await client.dbClient.connect();
-      await client.initDb();
-
       MongoDbClient.instance = client;
     }
 
