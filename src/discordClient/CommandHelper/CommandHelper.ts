@@ -2,9 +2,18 @@ import type { Command } from './types';
 import { REST, Routes } from 'discord.js';
 import { createProjectConfig } from './commandsList/createProjectConfig';
 import { deleteProjectConfig } from './commandsList/deleteProjectConfig';
+import { addRoleToConfig } from './commandsList/addRoleToConfig';
+import { removeRoleFromConfig } from './commandsList/removeRoleFromConfig';
+import { getProjectConfig } from './commandsList/getProjectConfig';
 
 export class CommandHelper {
-  static commands: Command[] = [createProjectConfig, deleteProjectConfig];
+  static commands: Command[] = [
+    getProjectConfig,
+    createProjectConfig,
+    deleteProjectConfig,
+    addRoleToConfig,
+    removeRoleFromConfig,
+  ];
 
   static getCommandByName = (name: string): Command | undefined =>
     this.commands.find((command) => command.data.name === name);

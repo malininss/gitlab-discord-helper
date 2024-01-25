@@ -26,6 +26,7 @@
         "code": 80,
         "ignorePattern": "^(import\\s.+\\sfrom\\s.+|\\} from)",
         "ignoreUrls": true,
+        "ignoreStrings": true,
         "ignoreTemplateLiterals": true
       }
     ]
