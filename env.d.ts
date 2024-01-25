@@ -1,9 +1,12 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    PORT: string;
+    SERVER_PORT: string;
     BOT_OAUTH_KEY: string;
     SERVER_ID: string;
-    MONGO_DB_URL: string;
     BOT_ID: string;
+    MONGO_DB_URL: string;
+    MONGO_DB_PORT: string;
+    MONGO_INITDB_ROOT_USERNAME: string;
+    MONGO_INITDB_ROOT_PASSWORD: string;
   }
 }

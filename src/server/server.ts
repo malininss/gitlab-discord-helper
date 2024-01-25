@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import { webhookHandler } from './requestHandlers/webhookHandler.js';
 import { Routes } from './routes.js';
 
-const port = process.env.PORT;
+const port = process.env.SERVER_PORT;
 const app = express();
 
 export const initServer = (): void => {

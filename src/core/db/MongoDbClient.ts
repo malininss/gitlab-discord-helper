@@ -11,7 +11,13 @@ export class MongoDbClient {
     this.dbName = DB_NAME;
 
     this.dbClient = new MongoClient(
-      `${process.env.MONGO_DB_URL}/${this.dbName}`
+      `${process.env.MONGO_DB_URL}:${process.env.MONGO_DB_PORT}/${this.dbName}?authSource=admin`,
+      {
+        auth: {
+          username: process.env.MONGO_INITDB_ROOT_USERNAME,
+          password: process.env.MONGO_INITDB_ROOT_PASSWORD,
+        },
+      }
     );
   }
 
