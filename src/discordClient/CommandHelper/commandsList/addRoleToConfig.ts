@@ -52,9 +52,9 @@ export const addRoleToConfig: Command = {
         specificityOfRole
       );
       await interaction.reply({
-        content: `Role with ID "${roleId}" added for the project with gitlab id "${gitlabProjectId}" with specificy "${
+        content: `Role with ID "${roleId}" and specificy "${
           specificityOfRole ?? 'all'
-        }"`,
+        }" added for the project with gitlab id "${gitlabProjectId}"`,
         ephemeral: true,
       });
     } catch (error) {

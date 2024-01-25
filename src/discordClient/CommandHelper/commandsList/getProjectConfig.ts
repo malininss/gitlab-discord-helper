@@ -5,6 +5,7 @@ import { projectConfigService } from 'core/services/projectConfigService';
 import type { WithId } from 'mongodb';
 import type { ProjectConfig } from 'core/models/ProjectConfigModel';
 import { getErrorMessage } from 'discordClient/helpers/getErrorMessage';
+import { getRoleNameById } from 'discordClient/helpers/role';
 
 const createProjectConfigMessage = (
   config: WithId<ProjectConfig>,
@@ -14,21 +15,24 @@ const createProjectConfigMessage = (
 
   const rolesToTagMessage =
     rolesToTagEntries.length > 0
-      ? rolesToTagEntries
-          .map(([key, value]) => {
+      ? '\n' +
+        rolesToTagEntries
+          .map(([key, rolesIds]) => {
+            const rolesNames = rolesIds?.map(getRoleNameById);
+
             const rolesList =
-              value && value.length > 0 ? value.join(', ') : 'None';
+              rolesNames && rolesNames.length > 0 ? rolesNames.join(', ') : 'None';
             return `  - ${key}: ${rolesList}`;
           })
           .join('\n')
-      : 'No roles to tag.\n';
+      : 'no roles to tag.\n';
 
   return [
     `Project Config for gitlab project id "${gitlabProjectId}":`,
     `- Discord Forum ID to Post MR Info: "${
       config.forumIdToPostMrInfo || 'Not specified'
     }"`,
-    `- Roles to Tag: \n${rolesToTagMessage}`,
+    `- Roles ids to tag: ${rolesToTagMessage}`,
   ].join('\n');
 };
 
