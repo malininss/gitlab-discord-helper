@@ -55,7 +55,7 @@ export class ProjectConfigRepository {
 
   async addRoleToConfig(
     gitlabProjectId: string,
-    role: Role['id'],
+    roleId: Role['id'],
     specificityOfRole?: string | null
   ): Promise<void> {
     const rolesToTagPath = `rolesToTag.${specificityOfRole ?? 'all'}`;
@@ -67,7 +67,7 @@ export class ProjectConfigRepository {
         { gitlabProjectId },
         {
           $addToSet: {
-            [rolesToTagPath]: role,
+            [rolesToTagPath]: roleId,
           },
         }
       );
@@ -87,10 +87,12 @@ export class ProjectConfigRepository {
 
   async removeRoleFromConfig(
     gitlabProjectId: string,
-    role: Role['id'],
+    roleId: Role['id'],
     specificityOfRole?: string | null
   ): Promise<void> {
-    const rolesToTagPath = `rolesToTag.${specificityOfRole ?? 'all'}`;
+    const specificity = specificityOfRole ?? 'all';
+
+    const rolesToTagPath = `rolesToTag.${specificity}`;
     const db = this.dbClient.getDb();
 
     const result = await db
@@ -99,7 +101,7 @@ export class ProjectConfigRepository {
         { gitlabProjectId },
         {
           $pull: {
-            [rolesToTagPath]: role,
+            [rolesToTagPath]: roleId,
           },
         }
       );
@@ -112,7 +114,7 @@ export class ProjectConfigRepository {
 
     if (result.modifiedCount === 0) {
       throw new Error(
-        `Role "${role}" was not found in ProjectConfig for gitlabProjectId "${gitlabProjectId}" or other error`
+        `Role with id "${roleId}" and specificity "${specificity}" was not found in ProjectConfig for gitlab project id "${gitlabProjectId}"`
       );
     }
   }

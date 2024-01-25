@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import type { Command } from '../types';
 import { OptionName, SlashCommandName } from '../enums';
 import { projectConfigService } from 'core/services/projectConfigService';
+import { getErrorMessage } from 'discordClient/helpers/getErrorMessage';
 
 export const deleteProjectConfig: Command = {
   data: new SlashCommandBuilder()
@@ -25,11 +26,15 @@ export const deleteProjectConfig: Command = {
 
     try {
       await projectConfigService.deleteProjectConfig(gitlabProjectId);
-      await interaction.reply(
-        `Project with id "${gitlabProjectId}" successfully deleted`
-      );
+      await interaction.reply({
+        content: `Project with id "${gitlabProjectId}" successfully deleted`,
+        ephemeral: true,
+      });
     } catch (error) {
-      await interaction.reply(`${error as string} `);
+      await interaction.reply({
+        content: getErrorMessage(error),
+        ephemeral: true,
+      });
     }
   },
 };
