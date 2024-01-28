@@ -15,5 +15,16 @@ export const MergeWebhookPayloadSchema = z.object({
     url: z.string(),
     title: z.string(),
     action: z.optional(z.nativeEnum(MergeWebhookActions)),
+    draft: z.boolean(),
   }),
+  changes: z.optional(
+    z.object({
+      draft: z.optional(
+        z.object({
+          previous: z.boolean(),
+          current: z.boolean(),
+        })
+      ),
+    })
+  ),
 });

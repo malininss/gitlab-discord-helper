@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import type { Command } from '../types';
 import { OptionName, SlashCommandName } from '../enums';
 import { projectConfigService } from 'core/services/projectConfigService';
-import { getErrorMessage } from 'discordClient/helpers/getErrorMessage';
+import { getErrorMessage } from 'utils/getErrorMessage';
 
 export const removeRoleFromConfig: Command = {
   data: new SlashCommandBuilder()
