@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "start": "bun run src/index.ts",
+    "start": "bun run dist/index.js",
     "register": "bun run src/registerDiscordCommands.ts",
     "dev": "bun run --hot src/index.ts",
     "build": "bun build --target=bun ./src/index.ts --outdir ./dist",
