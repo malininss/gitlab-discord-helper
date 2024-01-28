@@ -1,4 +1,4 @@
-import { Client, IntentsBitField, Partials } from 'discord.js';
+import { Client, Events, IntentsBitField, Partials } from 'discord.js';
 import { CommandHelper } from './CommandHelper';
 
 /**
@@ -20,11 +20,11 @@ export const initDiscordClient = async (): Promise<void> => {
     partials: [Partials.Channel, Partials.Message],
   });
 
-  client.on('ready', (c) => {
+  client.on(Events.ClientReady, (c) => {
     console.log(`🚀 ${c.user.tag} bot is ready`);
   });
 
-  client.on('interactionCreate', async (interaction) => {
+  client.on(Events.InteractionCreate, async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
     const command = CommandHelper.getCommandByName(interaction.commandName);
 

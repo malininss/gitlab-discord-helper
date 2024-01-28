@@ -4,7 +4,7 @@ import { OptionName, SlashCommandName } from '../enums';
 import { projectConfigService } from 'core/services/projectConfigService';
 import type { WithId } from 'mongodb';
 import type { ProjectConfig } from 'core/models/ProjectConfigModel';
-import { getErrorMessage } from 'discordClient/helpers/getErrorMessage';
+import { getErrorMessage } from 'utils/getErrorMessage';
 import { getRoleNameById } from 'discordClient/helpers/role';
 
 const createProjectConfigMessage = (
