@@ -3,16 +3,19 @@ import {
   findThreadByStartString,
   getChannelById,
 } from '../../helpers/channel.js';
-import { projectConfigService } from 'core/services/projectConfigService.js';
+import type { ProjectConfig } from 'core/models/ProjectConfigModel.js';
 
-export const archiveThread = async (
-  mrData: MergeWebhookPayload,
-  isMerged?: boolean
-): Promise<void> => {
-  const projectConfig = await projectConfigService.getProjectConfig(
-    String(mrData.project.id)
-  );
+interface ArchiveThreadParams {
+  mrData: MergeWebhookPayload;
+  projectConfig: ProjectConfig;
+  isMerged?: boolean;
+}
 
+export const archiveThread = async ({
+  mrData,
+  projectConfig,
+  isMerged,
+}: ArchiveThreadParams): Promise<void> => {
   const discordChannel = await getChannelById(
     projectConfig.forumIdToPostMrInfo
   );

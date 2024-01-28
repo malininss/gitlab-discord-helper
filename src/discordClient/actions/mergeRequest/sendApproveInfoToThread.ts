@@ -1,14 +1,14 @@
 import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types.js';
-import { findThreadByStartString, getChannelById } from '../../helpers/channel.js';
-import { projectConfigService } from 'core/services/projectConfigService.js';
+import {
+  findThreadByStartString,
+  getChannelById,
+} from '../../helpers/channel.js';
+import type { ProjectConfig } from 'core/models/ProjectConfigModel.js';
 
 export const sendApproveInfoToThread = async (
-  mrData: MergeWebhookPayload
+  mrData: MergeWebhookPayload,
+  projectConfig: ProjectConfig
 ): Promise<void> => {
-  const projectConfig = await projectConfigService.getProjectConfig(
-    String(mrData.project.id)
-  );
-
   const discordChannel = await getChannelById(
     projectConfig.forumIdToPostMrInfo
   );

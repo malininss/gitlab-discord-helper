@@ -1,3 +1,4 @@
+import { projectConfigService } from 'core/services/projectConfigService';
 import { archiveThread } from 'discordClient/actions/mergeRequest/archiveThread';
 import { createMergeThread } from 'discordClient/actions/mergeRequest/createMergeThread';
 import { sendApproveInfoToThread } from 'discordClient/actions/mergeRequest/sendApproveInfoToThread';
@@ -13,19 +14,34 @@ export const handleMergeEvent = async (
     return;
   }
 
+  const projectConfig = await projectConfigService.getProjectConfig(
+    String(mergeRequestInfo.project.id)
+  );
+
   const actionsMap: Partial<
     Record<MergeWebhookActions, () => Promise<void> | undefined>
   > = {
-    [MergeWebhookActions.Open]: () => createMergeThread(mergeRequestInfo),
+    [MergeWebhookActions.Open]: () =>
+      createMergeThread(mergeRequestInfo, projectConfig),
     [MergeWebhookActions.Update]: () =>
       mergeRequestInfo.changes?.draft?.previous === true &&
       mergeRequestInfo.changes?.draft?.current === false
-        ? createMergeThread(mergeRequestInfo)
+        ? createMergeThread(mergeRequestInfo, projectConfig)
         : undefined,
     [MergeWebhookActions.Approved]: () =>
-      sendApproveInfoToThread(mergeRequestInfo),
-    [MergeWebhookActions.Close]: () => archiveThread(mergeRequestInfo, false),
-    [MergeWebhookActions.Merge]: () => archiveThread(mergeRequestInfo, true),
+      sendApproveInfoToThread(mergeRequestInfo, projectConfig),
+    [MergeWebhookActions.Close]: () =>
+      archiveThread({
+        mrData: mergeRequestInfo,
+        projectConfig,
+        isMerged: false,
+      }),
+    [MergeWebhookActions.Merge]: () =>
+      archiveThread({
+        mrData: mergeRequestInfo,
+        projectConfig,
+        isMerged: true,
+      }),
   };
 
   try {
