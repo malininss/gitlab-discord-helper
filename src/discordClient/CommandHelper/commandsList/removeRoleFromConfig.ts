@@ -6,8 +6,8 @@ import { getErrorMessage } from 'utils/getErrorMessage';
 
 export const removeRoleFromConfig: Command = {
   data: new SlashCommandBuilder()
-    .setName(SlashCommandName.RemoveRolesFromProject)
-    .setDescription('Roles to remove from config for tagging')
+    .setName(SlashCommandName.RemoveRoleFromProject)
+    .setDescription('Role to remove from config for tagging')
     .addStringOption((option) =>
       option
         .setName(OptionName.GitlabProjectId)
@@ -16,8 +16,8 @@ export const removeRoleFromConfig: Command = {
     )
     .addRoleOption((option) =>
       option
-        .setName(OptionName.RolesToTagInProject)
-        .setDescription('The role to remove from tag')
+        .setName(OptionName.RoleToRemoveFromTagList)
+        .setDescription('Role to remove from tag')
         .setRequired(true)
     )
     .addStringOption((option) =>
@@ -35,7 +35,8 @@ export const removeRoleFromConfig: Command = {
     );
 
     const roleId =
-      interaction.options.getRole(OptionName.RolesToTagInProject)?.id ?? 'null';
+      interaction.options.getRole(OptionName.RoleToRemoveFromTagList)?.id ?? 'null';
+
 
     const specificityOfRole = interaction.options.getString(
       OptionName.SpecificyOfRole

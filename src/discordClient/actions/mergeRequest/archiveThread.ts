@@ -30,4 +30,5 @@ export const archiveThread = async (
 
   const statusEmoji = isMerged ? '✅' : '❌';
   await thread.setName(`${statusEmoji} ${thread.name}`);
+  await thread.setArchived(true);
 };

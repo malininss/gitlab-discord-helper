@@ -5,6 +5,8 @@ import { getErrorMessage } from 'utils/getErrorMessage';
 import { getRolesStringToTag } from 'discordClient/helpers/role';
 import { projectConfigService } from 'core/services/projectConfigService';
 
+const ALL_ROLES_KEY = 'all';
+
 export const createMergeThread = async (
   mrData: MergeWebhookPayload
 ): Promise<void> => {
@@ -29,12 +31,17 @@ export const createMergeThread = async (
     return;
   }
 
-  const commonTagString = getRolesStringToTag(projectConfig.rolesToTag?.all);
+  const commonTagString = getRolesStringToTag(
+    projectConfig.rolesToTag?.[ALL_ROLES_KEY]
+  );
 
-  const firstTitleWork = mrData.objectAttributes.title.split(' ')[0];
-  const specificRolesToTagArray = projectConfig.rolesToTag?.[firstTitleWork];
+  const specificRoleGroupForTag = Object.keys(
+    projectConfig.rolesToTag ?? {}
+  ).find((part) => mrData.objectAttributes.title.startsWith(part));
 
-  const specificTagString = getRolesStringToTag(specificRolesToTagArray);
+  const specificTagString =
+    specificRoleGroupForTag &&
+    getRolesStringToTag(projectConfig.rolesToTag?.[specificRoleGroupForTag]);
 
   const tagString = [commonTagString, specificTagString]
     .filter(Boolean)
