@@ -16,7 +16,7 @@ export const addRoleToConfig: Command = {
     )
     .addRoleOption((option) =>
       option
-        .setName(OptionName.RolesToTagInProject)
+        .setName(OptionName.RoleToTagInProject)
         .setDescription('The role to tag')
         .setRequired(true)
     )
@@ -35,7 +35,7 @@ export const addRoleToConfig: Command = {
     );
 
     const roleId =
-      interaction.options.getRole(OptionName.RolesToTagInProject)?.id ?? 'null';
+      interaction.options.getRole(OptionName.RoleToTagInProject)?.id ?? 'null';
 
     const specificityOfRole = interaction.options.getString(
       OptionName.SpecificyOfRole

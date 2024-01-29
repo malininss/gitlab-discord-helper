@@ -16,7 +16,10 @@ export const handleMergeEvent = async (
   const actionsMap: Partial<
     Record<MergeWebhookActions, () => Promise<void> | undefined>
   > = {
-    [MergeWebhookActions.Open]: () => createMergeThread(mergeRequestInfo),
+    [MergeWebhookActions.Open]: () =>
+      !mergeRequestInfo.objectAttributes.draft
+        ? createMergeThread(mergeRequestInfo)
+        : undefined,
     [MergeWebhookActions.Update]: () =>
       mergeRequestInfo.changes?.draft?.previous === true &&
       mergeRequestInfo.changes?.draft?.current === false
