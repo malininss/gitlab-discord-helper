@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { transformKeysToCamelCase } from 'utils/transformKeysToCamelCase.js';
+import { transformKeysToCamelCase } from 'utils/transformKeysToCamelCase';
 import { callActionByEventType } from './helpers/callActionByEventType';
 
 export const webhookHandler = (req: Request, res: Response): void => {

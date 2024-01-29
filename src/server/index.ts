@@ -1,1 +1,1 @@
-export { initServer } from './server.js';
+export { initServer } from './server';

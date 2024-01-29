@@ -1,6 +1,6 @@
-import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types.js';
-import { findThreadByStartString, getChannelById } from '../../helpers/channel.js';
-import { projectConfigService } from 'core/services/projectConfigService.js';
+import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types';
+import { findThreadByStartString, getChannelById } from '../../helpers/channel';
+import { projectConfigService } from 'core/services/projectConfigService';
 
 export const sendApproveInfoToThread = async (
   mrData: MergeWebhookPayload
