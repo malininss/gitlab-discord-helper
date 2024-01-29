@@ -1,4 +1,4 @@
 import { z } from 'zod';
-import { MergeWebhookPayloadSchema } from './WebhookMRPayloadSchema.js';
+import { MergeWebhookPayloadSchema } from './WebhookMRPayloadSchema';
 
 export type MergeWebhookPayload = z.infer<typeof MergeWebhookPayloadSchema>;

@@ -1,1 +1,1 @@
-export { getDiscordClient, initDiscordClient } from './client.js';
+export { getDiscordClient, initDiscordClient } from './client';

@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { MergeWebhookActions } from './enums.js';
-import { WebhookEventType } from '../enums.js';
+import { MergeWebhookActions } from './enums';
+import { WebhookEventType } from '../enums';
 
 export const MergeWebhookPayloadSchema = z.object({
   eventType: z.nativeEnum(WebhookEventType),

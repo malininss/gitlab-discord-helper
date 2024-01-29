@@ -1,5 +1,5 @@
-import { initDiscordClient } from 'discordClient/index.js';
-import { initServer } from 'server/index.js';
+import { initDiscordClient } from 'discordClient';
+import { initServer } from 'server';
 
 await initDiscordClient();
 initServer();

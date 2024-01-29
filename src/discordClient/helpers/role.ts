@@ -1,4 +1,4 @@
-import { getDiscordClient } from '../client.js';
+import { getDiscordClient } from '../client';
 
 export const getRoleNameById = (roleId: string): string | undefined => {
   const client = getDiscordClient();

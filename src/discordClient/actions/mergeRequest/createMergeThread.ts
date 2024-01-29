@@ -1,9 +1,9 @@
-import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types.js';
+import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types';
 import { ChannelType, ThreadAutoArchiveDuration } from 'discord.js';
-import { findThreadByStartString, getChannelById } from '../../helpers/channel.js';
-import { getErrorMessage } from 'utils/getErrorMessage.js';
-import { getRolesStringToTag } from 'discordClient/helpers/role.js';
-import { projectConfigService } from 'core/services/projectConfigService.js';
+import { findThreadByStartString, getChannelById } from '../../helpers/channel';
+import { getErrorMessage } from 'utils/getErrorMessage';
+import { getRolesStringToTag } from 'discordClient/helpers/role';
+import { projectConfigService } from 'core/services/projectConfigService';
 
 export const createMergeThread = async (
   mrData: MergeWebhookPayload

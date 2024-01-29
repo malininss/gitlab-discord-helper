@@ -1,5 +1,5 @@
 import { ChannelType, type AnyThreadChannel, type Channel } from 'discord.js';
-import { getDiscordClient } from '../client.js';
+import { getDiscordClient } from '../client';
 
 export const getChannelById = async (id: string): Promise<Channel | null> => {
   const client = getDiscordClient();

@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { Routes } from './routes.js';
+import { Routes } from './routes';
 import { webhookHandler } from './requestHandlers/webhookHandler';
 
 const port = process.env.SERVER_PORT;
