@@ -1,9 +1,9 @@
-import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types';
+import type { MergeEventPayload } from 'server';
 import { findThreadByStartString, getChannelById } from '../../helpers/channel';
 import { projectConfigService } from 'core/services/projectConfigService';
 
 export const sendApproveInfoToThread = async (
-  mrData: MergeWebhookPayload
+  mrData: MergeEventPayload
 ): Promise<void> => {
   const projectConfig = await projectConfigService.getProjectConfig(
     String(mrData.project.id)

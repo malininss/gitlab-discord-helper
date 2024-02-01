@@ -1,12 +1,9 @@
-import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types';
-import {
-  findThreadByStartString,
-  getChannelById,
-} from '../../helpers/channel';
+import type { MergeEventPayload } from 'server';
+import { findThreadByStartString, getChannelById } from '../../helpers/channel';
 import { projectConfigService } from 'core/services/projectConfigService';
 
 export const archiveThread = async (
-  mrData: MergeWebhookPayload,
+  mrData: MergeEventPayload,
   isMerged?: boolean
 ): Promise<void> => {
   const projectConfig = await projectConfigService.getProjectConfig(

@@ -1,4 +1,4 @@
-import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types';
+import type { MergeEventPayload } from 'server';
 import { ChannelType, ThreadAutoArchiveDuration } from 'discord.js';
 import { findThreadByStartString, getChannelById } from '../../helpers/channel';
 import { getErrorMessage } from 'utils/getErrorMessage';
@@ -8,7 +8,7 @@ import { projectConfigService } from 'core/services/projectConfigService';
 const ALL_ROLES_KEY = 'all';
 
 export const createMergeThread = async (
-  mrData: MergeWebhookPayload
+  mrData: MergeEventPayload
 ): Promise<void> => {
   const projectConfig = await projectConfigService.getProjectConfig(
     String(mrData.project.id)

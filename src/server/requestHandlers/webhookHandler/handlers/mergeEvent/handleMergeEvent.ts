@@ -1,13 +1,22 @@
-import { archiveThread } from 'discordClient/actions/mergeRequest/archiveThread';
-import { createMergeThread } from 'discordClient/actions/mergeRequest/createMergeThread';
-import { sendApproveInfoToThread } from 'discordClient/actions/mergeRequest/sendApproveInfoToThread';
-import { MergeWebhookActions } from 'schemas/webhooks/mergeWebhook/enums';
-import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types';
+import {
+  archiveThread,
+  createMergeThread,
+  sendApproveInfoToThread,
+} from 'discordClient/actions';
+import { MergeWebhookActions } from 'server/requestHandlers/webhookHandler/handlers/mergeEvent/enums';
 import { getErrorMessage } from 'utils/getErrorMessage';
+import type { BodyWithType } from '../../types';
+import { schema } from './schema';
+import { WebhookEventType } from '../../enums';
 
-export const handleMergeEvent = async (
-  mergeRequestInfo: MergeWebhookPayload
-): Promise<void> => {
+export const handleMergeEvent = async (body: BodyWithType): Promise<void> => {
+  if (body.eventType !== WebhookEventType.MergeRequest) {
+    const mergeRequestInfo = schema.parse(body);
+    return handleMergeEvent(mergeRequestInfo);
+  }
+
+  const mergeRequestInfo = schema.parse(body);
+
   const { action } = mergeRequestInfo.objectAttributes;
   if (!action) {
     return;
