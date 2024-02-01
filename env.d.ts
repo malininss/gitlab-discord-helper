@@ -1,5 +1,6 @@
 declare namespace NodeJS {
   interface ProcessEnv {
+    GITLAB_ACCESS_TOKEN: string;
     SERVER_PORT: string;
     BOT_OAUTH_KEY: string;
     SERVER_ID: string;
