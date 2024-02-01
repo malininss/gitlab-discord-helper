@@ -9,10 +9,7 @@ let client: Client | undefined;
 
 export const initDiscordClient = async (): Promise<void> => {
   client = new Client({
-    intents: [
-      IntentsBitField.Flags.Guilds,
-      IntentsBitField.Flags.GuildMembers
-    ],
+    intents: [IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMembers],
     partials: [Partials.Channel, Partials.Message],
   });
 

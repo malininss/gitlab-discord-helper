@@ -8,5 +8,5 @@ export const getRoleNameById = (roleId: string): string | undefined => {
   return role?.name;
 };
 
-export const getRolesStringToTag = (rolesIds?: string[]): string | undefined =>
+export const transformRoleIdsStringToTag = (rolesIds: string[]): string =>
   rolesIds?.map((roleId) => `<@&${roleId}>`).join(', ');

@@ -1,18 +1,23 @@
 import type { MergeEventPayload } from 'server';
 import { ChannelType, ThreadAutoArchiveDuration } from 'discord.js';
-import { findThreadByStartString, getChannelById } from '../../helpers/channel';
+import {
+  findThreadByStartString,
+  getChannelById,
+} from '../../../helpers/channel';
 import { getErrorMessage } from 'utils/getErrorMessage';
-import { getRolesStringToTag } from 'discordClient/helpers/role';
-import { projectConfigService } from 'core/services/projectConfigService';
-
-const ALL_ROLES_KEY = 'all';
+import { config, type ProjectConfig } from 'config';
+import { getRolesStringToTag } from './services/getRolesStringToTag';
 
 export const createMergeThread = async (
   mrData: MergeEventPayload
 ): Promise<void> => {
-  const projectConfig = await projectConfigService.getProjectConfig(
-    String(mrData.project.id)
-  );
+  const projectConfig: ProjectConfig | undefined =
+    config[String(mrData.project.id)];
+
+  if (!projectConfig) {
+    console.error('projectInfo data not found');
+    return;
+  }
 
   const discordChannel = await getChannelById(
     projectConfig.forumIdToPostMrInfo
@@ -31,21 +36,11 @@ export const createMergeThread = async (
     return;
   }
 
-  const commonTagString = getRolesStringToTag(
-    projectConfig.rolesToTag?.[ALL_ROLES_KEY]
+  const tagsString = await getRolesStringToTag(
+    projectConfig,
+    mrData.project.pathWithNamespace,
+    mrData.objectAttributes.iid.toString()
   );
-
-  const specificRoleGroupForTag = Object.keys(
-    projectConfig.rolesToTag ?? {}
-  ).find((part) => mrData.objectAttributes.title.startsWith(part));
-
-  const specificTagString =
-    specificRoleGroupForTag &&
-    getRolesStringToTag(projectConfig.rolesToTag?.[specificRoleGroupForTag]);
-
-  const tagString = [commonTagString, specificTagString]
-    .filter(Boolean)
-    .join(', ');
 
   if (discordChannel?.type !== ChannelType.GuildForum) {
     console.error('Channel is not a guild text channel');
@@ -57,7 +52,7 @@ export const createMergeThread = async (
       name: `!${mrData.objectAttributes.iid} ${mrData.objectAttributes.title}`,
       autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
       message: {
-        content: `${mrData.user.name} created MR:\n${mrData.objectAttributes.url}\n\nPlease, check it. ${tagString}`,
+        content: `${mrData.user.name} created MR:\n${mrData.objectAttributes.url}\n\nPlease, check it. ${tagsString}`,
       },
     });
   } catch (error) {

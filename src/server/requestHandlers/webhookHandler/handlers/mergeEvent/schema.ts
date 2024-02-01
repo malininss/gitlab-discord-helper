@@ -6,6 +6,7 @@ export const schema = z.object({
   eventType: z.nativeEnum(WebhookEventType),
   project: z.object({
     id: z.number(),
+    pathWithNamespace: z.string(),
   }),
   user: z.object({
     name: z.string(),

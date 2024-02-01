@@ -6,6 +6,7 @@ export const approvalRulesSchema = z.array(
     ruleType: z.nativeEnum(ApprovalRuleType),
     groups: z.array(
       z.object({
+        id: z.number(),
         name: z.string(),
       })
     ),
