@@ -39,11 +39,14 @@ export const createMergeThread = async (
     throw new Error('Channel is not a guild text channel');
   }
 
-  await discordChannel.threads.create({
+  const thread = await discordChannel.threads.create({
     name: `!${mrData.objectAttributes.iid} ${mrData.objectAttributes.title}`,
     autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
     message: {
       content: `${mrData.user.name} created MR:\n${mrData.objectAttributes.url}\n\nPlease, check it. ${tagsString}`,
     },
   });
+
+  const messages = await thread.messages.fetch({ limit: 1 });
+  await messages.first()?.pin();
 };

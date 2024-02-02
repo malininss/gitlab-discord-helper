@@ -22,5 +22,5 @@ export const sendApproveInfoToThread = async (
     return;
   }
 
-  await thread.send(`👍 MR approved by ${mrData.user.name}`);
+  await thread.send('👍 MR approved by all approvers');
 };
