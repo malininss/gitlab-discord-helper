@@ -4,20 +4,13 @@ import {
   findThreadByStartString,
   getChannelById,
 } from '../../../helpers/channel';
-import { getErrorMessage } from 'utils/getErrorMessage';
-import { config, type ProjectConfig } from 'config';
 import { getRolesStringToTag } from './services/getRolesStringToTag';
+import { getProjectConfigByGitlabProjectId } from 'discordClient/services/getProjectConfigByGitlabProjectId';
 
 export const createMergeThread = async (
   mrData: MergeEventPayload
 ): Promise<void> => {
-  const projectConfig: ProjectConfig | undefined =
-    config[String(mrData.project.id)];
-
-  if (!projectConfig) {
-    console.error('projectInfo data not found');
-    return;
-  }
+  const projectConfig = getProjectConfigByGitlabProjectId(mrData.project.id);
 
   const discordChannel = await getChannelById(
     projectConfig.forumIdToPostMrInfo
@@ -43,19 +36,14 @@ export const createMergeThread = async (
   );
 
   if (discordChannel?.type !== ChannelType.GuildForum) {
-    console.error('Channel is not a guild text channel');
-    return;
+    throw new Error('Channel is not a guild text channel');
   }
 
-  try {
-    await discordChannel.threads.create({
-      name: `!${mrData.objectAttributes.iid} ${mrData.objectAttributes.title}`,
-      autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
-      message: {
-        content: `${mrData.user.name} created MR:\n${mrData.objectAttributes.url}\n\nPlease, check it. ${tagsString}`,
-      },
-    });
-  } catch (error) {
-    console.error('Creation thread error: ', getErrorMessage(error));
-  }
+  await discordChannel.threads.create({
+    name: `!${mrData.objectAttributes.iid} ${mrData.objectAttributes.title}`,
+    autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
+    message: {
+      content: `${mrData.user.name} created MR:\n${mrData.objectAttributes.url}\n\nPlease, check it. ${tagsString}`,
+    },
+  });
 };
