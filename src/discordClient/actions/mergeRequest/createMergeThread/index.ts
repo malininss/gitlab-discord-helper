@@ -1,0 +1,1 @@
+export { createMergeThread } from './createMergeThread';

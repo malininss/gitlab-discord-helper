@@ -1,11 +1,12 @@
 import { z } from 'zod';
 import { MergeWebhookActions } from './enums';
-import { WebhookEventType } from '../enums';
+import { WebhookEventType } from '../../enums';
 
-export const MergeWebhookPayloadSchema = z.object({
+export const schema = z.object({
   eventType: z.nativeEnum(WebhookEventType),
   project: z.object({
     id: z.number(),
+    pathWithNamespace: z.string(),
   }),
   user: z.object({
     name: z.string(),

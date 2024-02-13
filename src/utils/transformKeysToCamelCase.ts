@@ -1,5 +1,5 @@
-const toCamelCase = (s: string): string =>
-  s.replace(/(_\w)/g, (m) => m[1].toUpperCase());
+const toCamelCase = (str: string): string =>
+  str.replace(/(_\w)/g, (m) => m[1]?.toUpperCase() ?? '');
 
 type Transformable = Record<string, unknown> | Record<string, unknown>[];
 

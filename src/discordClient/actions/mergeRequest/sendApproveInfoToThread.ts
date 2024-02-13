@@ -1,13 +1,11 @@
-import type { MergeWebhookPayload } from 'schemas/webhooks/mergeWebhook/types';
+import type { MergeEventPayload } from 'server';
 import { findThreadByStartString, getChannelById } from '../../helpers/channel';
-import { projectConfigService } from 'core/services/projectConfigService';
+import { getProjectConfigByGitlabProjectId } from 'discordClient/services/getProjectConfigByGitlabProjectId';
 
 export const sendApproveInfoToThread = async (
-  mrData: MergeWebhookPayload
+  mrData: MergeEventPayload
 ): Promise<void> => {
-  const projectConfig = await projectConfigService.getProjectConfig(
-    String(mrData.project.id)
-  );
+  const projectConfig = getProjectConfigByGitlabProjectId(mrData.project.id);
 
   const discordChannel = await getChannelById(
     projectConfig.forumIdToPostMrInfo
@@ -24,5 +22,5 @@ export const sendApproveInfoToThread = async (
     return;
   }
 
-  await thread.send(`👍 MR approved by ${mrData.user.name}`);
+  await thread.send('👍 MR approved by all approvers');
 };
